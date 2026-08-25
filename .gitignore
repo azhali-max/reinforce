@@ -1,0 +1,12 @@
+*.exe
+*.dll
+*.o
+*.obj
+*.lib
+*.a
+
+*.zip
+*.tar.gz
+*.rar
+
+.vscode/
