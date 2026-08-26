@@ -104,18 +104,35 @@ std::tuple<bool, glm::vec2, float> Triangle::checkCollision(Triangle* other){
 
             if(maxA < minB || maxB < minA)return {false, glm::vec2(0.0f), 0.0f};
 
-            if(smallestOverlap > maxA - minB){
-                smallestOverlap = maxA - minB;
+
+            float overlap = std::min(maxA, maxB) - std::max(minA, minB);
+            if(smallestOverlap > overlap){
+                smallestOverlap = overlap;
                 overlapAxis = axis;
             }
-            if(smallestOverlap > maxB - minA){
-                smallestOverlap = maxB - minA;
-                overlapAxis = axis;
-            }
+
         }
+    }
+
+    glm::vec2 center1(0.0f), center2(0.0f);
+    for(const auto& p: poly1){
+        center1 += p;
+    }
+    center1 /= poly1.size();
+
+    for(const auto& p: poly2){
+        center2 += p;
+    }
+    center2 /= poly2.size();
+
+    glm::vec2 dir = center2 - center1;
+
+    if (glm::dot(dir, overlapAxis) > 0.0f) {
+        overlapAxis = -overlapAxis; 
     }
 
     return {true, overlapAxis, smallestOverlap};
 }
+
 
 

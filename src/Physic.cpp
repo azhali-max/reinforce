@@ -40,7 +40,7 @@ void Physic::procesGravity(std::vector<Triangle*> land){
     this->xPull *= 0.99f;
     this->yPull *= 0.99f;
 
-    shape->setAngle(shape->getAngle() + angularVelocity * deltaTime);
+    this->angularVelocity *= 0.95f;
 }
 
 void Physic::procesCollision(std::vector<Triangle*> other){
@@ -48,14 +48,16 @@ void Physic::procesCollision(std::vector<Triangle*> other){
         auto [collision, axis, depth] = shape->checkCollision(o);
         if(collision){
             // shape->restoreSafePosition();
-
+            
             shape->setXOff(shape->getXOff() + (axis.x * depth));
             shape->setYOff(shape->getYOff() + (axis.y * depth));
 
             float rad = glm::radians(shape->getAngle());
 
-            angularVelocity += std::sin(rad) * 300.0f * deltaTime;
+            angularVelocity += std::sin(rad) * forceRotate * deltaTime;
 
+            std::cout << angularVelocity << ", " << shape->getAngle() << std::endl;
+            
             xPull = 0.0f;
             yPull = 0.0f;
 
