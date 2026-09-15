@@ -47,16 +47,13 @@ void Physic::procesCollision(std::vector<Triangle*> other){
     for (Triangle* o : other){
         auto [collision, axis, depth] = shape->checkCollision(o);
         if(collision){
-            // shape->restoreSafePosition();
             
             shape->setXOff(shape->getXOff() + (axis.x * depth));
             shape->setYOff(shape->getYOff() + (axis.y * depth));
 
-            float rad = glm::radians(shape->getAngle());
+            // float rad = glm::radians(shape->getAngle());
 
-            angularVelocity += std::sin(rad) * forceRotate * deltaTime;
-
-            std::cout << angularVelocity << ", " << shape->getAngle() << std::endl;
+            // angularVelocity -= std::sin(rad) * forceRotate * deltaTime;
             
             xPull = 0.0f;
             yPull = 0.0f;

@@ -5,7 +5,7 @@
 
 int main(){
     
-    Screen screen(800, 800, "Cobaan", 2000.0f, 2000.0f);
+    Screen screen(800, 800, "Cobaan");
 
     if(!screen.createScreen()){
         std::cerr << "inisialisasi screen gagal" << std::endl;
@@ -21,8 +21,6 @@ int main(){
 
         screen.calculateDeltaTime();
         screen.roket->physic.setDeltaTime(screen.getDeltaTime());
-
-        screen.roket->saveSafePosition();
 
         screen.processMove();
         screen.roket->physic.procesGravity(screen.land);

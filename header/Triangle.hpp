@@ -12,23 +12,23 @@ typedef std::string str;
 class Triangle{
 
     private:
-    Mesh mesh;
-    std::vector<float> verticles;
-    std::vector<unsigned int> indices;
-   
-    float prevX = 0.0f;
-    float prevY = 0.0f;
+        //inisialisasi mesh
+        Mesh mesh;
 
-    //movement
-    float angle;
+        //properties 
+        std::vector<float> verticles;
+        std::vector<unsigned int> indices;
 
-    float xOff;
-    float yOff;
-    float mass;
+        //physic
+        float angle = 0.0f;
+        float xOff;
+        float yOff;
+        float mass;
     
     public:
 
         Shader triangelShader;
+
         Physic physic;
 
         Triangle(std::vector<float> verticles, std::vector<unsigned int> indices, std::string vertPath, std::string fragPath, float x, float y, float mass);
@@ -40,9 +40,6 @@ class Triangle{
         float getMass() const {return this->mass;}
         void setAngle(float angle) {this->angle = angle;}
         float getAngle() const {return this->angle;}
-
-        void saveSafePosition() { prevX = xOff; prevY = yOff; }
-        void restoreSafePosition() { xOff = prevX; yOff = prevY; }
 
         bool initTriangel();
         void drawTriangle();

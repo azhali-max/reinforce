@@ -7,9 +7,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+//constructor
 Triangle::Triangle(std::vector<float> verticles, std::vector<unsigned int> indices, std::string vertPath, std::string fragPath, float x, float y, float mass):
                     verticles(verticles), indices(indices), mesh(verticles, indices), triangelShader(vertPath, fragPath), xOff(x), yOff(y), mass(mass), physic(this, mass){}
 
+
+//inisialisasi bentuk
 bool Triangle::initTriangel(){
 
     unsigned int id = triangelShader.initShader();
@@ -27,6 +30,7 @@ bool Triangle::initTriangel(){
     return true;
 }
 
+//gambar bentuk
 void Triangle::drawTriangle(){
     triangelShader.useShader();
     
@@ -36,11 +40,13 @@ void Triangle::drawTriangle(){
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 }
 
+//hapus bentuk
 void Triangle::terminateTriangle(){
     mesh.del();
     triangelShader.delShader();
 }
 
+//set posisi dan rotasi
 void Triangle::setPosition(float x, float y){
     triangelShader.useShader();
 
@@ -53,6 +59,7 @@ void Triangle::setPosition(float x, float y){
     triangelShader.setMat4("model", model);
 }
 
+//mengambil posisi asli masing masing verticle
 std::vector<glm::vec2> Triangle::getObjectWorldPos(){
     std::vector<glm::vec2> vertPos;
 
@@ -71,6 +78,7 @@ std::vector<glm::vec2> Triangle::getObjectWorldPos(){
     return vertPos;
 }
 
+//cek overlap object
 std::tuple<bool, glm::vec2, float> Triangle::checkCollision(Triangle* other){
     std::vector<glm::vec2> poly1 = this->getObjectWorldPos();
     std::vector<glm::vec2> poly2 = other->getObjectWorldPos();

@@ -7,32 +7,42 @@
 #include <GLFW/glfw3.h>
 #include "Triangle.hpp"
 #include "Physic.hpp"
+#include <tuple>
 
 class Screen{
     private:
+        //properti screen
         int width, height;  
-        float speed;
 
+        //untuk menghitung deltaTime
         float deltaTime = 0.0f;
         float lastTime = 0.0f;
 
-        float mapWidth, mapHeight;
-
+        //camera pos
         float cameraX = 0.0f; 
         float cameraY = 0.0f;
+
+        //cursor pos
         double lastXCursor = 0.0f;
         double lastYCursor = 0.0f;
+
+        //drag condition
         bool isDragging = false;
 
+        //zoom
         float zoomLevel = 1.0f;
         float isZooming = false;
 
+        //for screen
         std::string judul;
         GLFWwindow* window;
 
+        //shader projection view
         glm::mat4 projection;
         glm::mat4 view;
 
+
+        //Roket properties
         struct RoketProp
         {
             float mass = 1000.0f;
@@ -72,6 +82,8 @@ class Screen{
             };
         };
 
+
+        //Triangle properties
         struct TriangleProp{
 
             float mass = 100.0f;
@@ -90,6 +102,8 @@ class Screen{
             };
         };
 
+
+        //Ground properties
         struct GroundProp{
 
             float mass = 20.0f * std::pow(10, 12);
@@ -110,8 +124,24 @@ class Screen{
             };
         };
 
+        //Planet properties
+        struct PlanetProp{
+            std::vector<float> verticles;
+            std::vector<unsigned int>indices;
+            float mass;
+
+            std::string vertPath = "assets/shaders/triangle.vert";
+            std::string fragPath = "assets/shaders/triangle.frag";
+
+            PlanetProp(){
+                std::tie(verticles, indices, mass) = Screen::makePoligon(100, 3000.0f, 20.0f * std::pow(10, 12));
+            }
+
+        };
+
         void setVPModel(Triangle* shape);
 
+        //event detector
         static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
         static void frameBufferCallback(GLFWwindow* window, int w, int h);
         static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
@@ -119,18 +149,50 @@ class Screen{
         static void scrollCallback(GLFWwindow* window, double xOff, double yOff);
 
     public:
+        //constructor
+        Screen(int w, int h, std::string judul);
+        
+        //method init screen
+        bool createScreen();
+        
+        //check window close
+        bool shouldClose();
+        
+        //per frame
+        void updateScreen();
+        
+        //inisialisasi view
+        void setView();
+        
+        //menghitung deltaTime
+        void calculateDeltaTime();
+        float getDeltaTime();
+
+        //get window
+        GLFWwindow* getWindow() const { return window; }
+
+// ======================================INISIALISASI OBJECT==================================================================================
+
         Triangle* roket = nullptr;
         RoketProp roketProp;        
         
         Triangle* triangle = nullptr;
         TriangleProp triangleProp;        
 
-        Triangle* ground = nullptr;
-        GroundProp groundProp;
+        // Triangle* ground = nullptr;
+        // GroundProp groundProp;
         
+        Triangle* planet = nullptr;
+        PlanetProp planetprop;
+
         std::vector<Triangle*> land;
 
+// ===========================================================================================================================================
         
+        // Buat Object Poligon 
+        static std::tuple<std::vector<float>, std::vector<unsigned int>, float> makePoligon(int count, float length, float mass);
+
+// ======================================METHOD INISIALISASI OBJECT==================================================================================
 
         template <typename T>
         bool initObject(Triangle*& shape, T& prop, std::string name, float x, float y){
@@ -141,29 +203,20 @@ class Screen{
             }
             return true;
         };
+
+// ==================================================================================================================================================
         
-        
-        void drawObject(Triangle* shape);
-
-        void drawModel();
-
-        Screen(int w, int h, std::string judul, float mapW, float mapH);
-        bool createScreen();
-
+// ======================================MEMASUKAN OBJECT KE SCREEN==================================================================================
         bool createObject();
+        void drawObject(Triangle* shape);
+        void drawModel();
         void terminateObject();
 
-        bool shouldClose();
-        void updateScreen();
+// ==================================================================================================================================================
 
+        //method proses movement
         void processMove();
 
-        void setView();
-
-        void calculateDeltaTime();
-        float getDeltaTime();
-        
-        GLFWwindow* getWindow() const { return window; }
 };
 
 #endif

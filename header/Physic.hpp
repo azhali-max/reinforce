@@ -17,7 +17,7 @@ class Physic{
         float xPull = 0.0f, 
         yPull = 0.0f, 
         forceUp = 0.0f, 
-        forceRotate = 1000.0f * PIXEL, 
+        forceRotate = 500.0f * PIXEL, 
         angularVelocity = 0.0f;
 
         float deltaTime = 0.0f;
