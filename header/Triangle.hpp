@@ -51,6 +51,7 @@ class Triangle{
 
         std::vector<glm::vec2> getObjectWorldPos();
         std::tuple<bool, glm::vec2, float> checkCollision(Triangle* other);
+        glm::vec2 getCentroid();
 
         //move
         void moveRight();

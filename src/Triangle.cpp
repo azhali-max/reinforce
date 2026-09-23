@@ -142,5 +142,9 @@ std::tuple<bool, glm::vec2, float> Triangle::checkCollision(Triangle* other){
     return {true, overlapAxis, smallestOverlap};
 }
 
+glm::vec2 Triangle::getCentroid(){
+    
+}
+
 
 

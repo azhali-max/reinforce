@@ -59,7 +59,7 @@ bool Screen::createObject(){
     if(!initObject(roket, roketProp, "roket", 400.0f, 400.0f))return false;
     if(!initObject(triangle, triangleProp, "triangle", 0.0f, 0.0f))return false;
     // if(!initObject(ground, groundProp, "ground", 1000.0f, 700.0f))return false;
-    if(!initObject(planet, planetprop, "planet", 400.0f, 5800.0f))return false;
+    if(!initObject(planet, planetprop, "planet", 400.0f, 4000.0f))return false;
 
     // yang merupakan land
 
